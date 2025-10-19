@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
 # Every version supported by CheatBreakerX will be added here once added in the full project.
-# As of currently, the only supported versions are 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 1.14.4
+# As of currenly, the only supported versions are 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 1.14.4
 
 name: Java CI with Gradle
 
