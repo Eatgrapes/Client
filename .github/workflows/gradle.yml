@@ -1,33 +1,10 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
-# Every version supported by CheatBreakerX will be added here once added in the full project.
-# As of currenly, the only supported versions are 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 1.14.4
-
 name: Java CI with Gradle
 
 on: [push, pull_request]
 
 jobs:
-  #obtain_info:
-  #  runs-on: ubuntu-latest
-  #  name: Obtain commit information
-  #  outputs:
-  #    full_sha: ${{ steps.var.outputs.full_sha }}
-  #    short_sha: ${{ steps.var.outputs.short_sha }}
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #      with:
-  #        fetch-depth: 0
-  #    - name: Generate Build Info
-  #      id: var
-  #      run: |
-  #        echo "full_sha=$(git rev-parse HEAD)" >> $env:GITHUB_OUTPUT
-  #        echo "short_sha=$(git rev-parse --short HEAD)" >> $env:GITHUB_OUTPUT
-  
   build:
     runs-on: ubuntu-latest
-  #  needs: obtain_info
     steps:
       # Gradle setup (JDK 1.8 is for 1.8.9-1.16.5, JDK 16 for 1.17.1, JDK 17 for 1.18.2-1.19.4 and JDK 21 for 1.20.6 and Gradle)
       - uses: actions/checkout@v4
@@ -35,6 +12,141 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 1.8
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: 8.0.412+9
+          distribution: liberica
+
+      - name: Set up JDK 16
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: 16.0.2+7
+          distribution: liberica
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: 17.0.11+10
+          distribution: liberica
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: 21.0.3+12
+          distribution: liberica
+
+      - name: Make 'gradlew' executable
+        run: chmod +x gradlew
+
+      # Build the different projects
+      - name: Compile CheatBreakerX 1.8.9
+        run: ./gradlew :versions:1.8.9:build
+
+      - name: Compile CheatBreakerX 1.9.4
+        run: ./gradlew :versions:1.9.4:build
+
+      - name: Compile CheatBreakerX 1.10.2
+        run: ./gradlew :versions:1.10.2:build
+
+      - name: Compile CheatBreakerX 1.11.2
+        run: ./gradlew :versions:1.11.2:build
+
+      - name: Compile CheatBreakerX 1.12.2
+        run: ./gradlew :versions:1.12.2:build
+
+      - name: Compile CheatBreakerX 1.14.4-Fabric
+        run: ./gradlew :versions:1.14.4-Fabric:build
+
+      - name: Compile CheatBreakerX 1.15.2-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.15.2-Fabric:build
+
+      - name: Compile CheatBreakerX 1.16.5-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.16.5-Fabric:build
+
+      - name: Compile CheatBreakerX 1.17.1-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.17.1-Fabric:build
+
+      - name: Compile CheatBreakerX 1.18.2-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.18.2-Fabric:build
+
+      - name: Compile CheatBreakerX 1.19.4-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.19.4-Fabric:build
+
+      - name: Compile CheatBreakerX 1.20.6-Fabric (currently unimplemented)
+        run: ./gradlew :versions:1.20.6-Fabric:build
+
+      # Upload the artifacts through GitHub Actions - UPDATED TO v4
+      - name: Upload 1.8.9 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.8.9
+          path: versions/1.8.9/build/libs
+
+      - name: Upload 1.9.4 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.9.4
+          path: versions/1.9.4/build/libs
+
+      - name: Upload 1.10.2 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.10.2
+          path: versions/1.10.2/build/libs
+
+      - name: Upload 1.11.2 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.11.2
+          path: versions/1.11.2/build/libs
+
+      - name: Upload 1.12.2 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.12.2
+          path: versions/1.12.2/build/libs
+
+      - name: Upload 1.14.4-Fabric artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.14.4-Fabric
+          path: versions/1.14.4-Fabric/build/libs
+
+      - name: Upload 1.15.2-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.15.2-Fabric
+          path: versions/1.15.2-Fabric/build/libs
+
+      - name: Upload 1.16.5-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.16.5-Fabric
+          path: versions/1.16.5-Fabric/build/libs
+
+      - name: Upload 1.17.1-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.17.1-Fabric
+          path: versions/1.17.1-Fabric/build/libs
+
+      - name: Upload 1.18.2-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.18.2-Fabric
+          path: versions/1.18.2-Fabric/build/libs
+
+      - name: Upload 1.19.4-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.19.4-Fabric
+          path: versions/1.19.4-Fabric/build/libs
+
+      - name: Upload 1.20.6-Fabric artifact (currently unimplemented)
+        uses: actions/upload-artifact@v4
+        with:
+          name: CheatBreakerX-1.20.6-Fabric
+          path: versions/1.20.6-Fabric/build/libs      - name: Set up JDK 1.8
         uses: actions/setup-java@v4.2.1
         with:
           java-version: 8.0.412+9
